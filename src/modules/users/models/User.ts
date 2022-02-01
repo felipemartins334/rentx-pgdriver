@@ -1,22 +1,22 @@
 import { v4 as uuidV4 } from "uuid"
 
-class Specification{
+class User{
 
   id: string
-
   name: string
-
-  description: string
-
+  password: string
+  email: string
+  driver_license: string
+  admin: boolean
+  avatar: string
   created_at: Date
 
   constructor(){
     if(!this.id){
       this.id = uuidV4()
-      this.created_at = new Date()
+      this.admin = false
     }
   }
-
 }
 
-export { Specification }
+export { User }

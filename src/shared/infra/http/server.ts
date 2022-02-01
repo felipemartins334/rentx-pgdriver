@@ -6,7 +6,6 @@ import { routes } from "./routes";
 import { runMigrations } from '../database/runMigrations'
 import { handleErrors } from './middlewares/handleErrors';
 
-
 runMigrations()
 
 const app = express()

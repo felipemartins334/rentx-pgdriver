@@ -1,4 +1,3 @@
-import 'reflect-metadata';
 import { ICreateCategoryDTO } from "@modules/cars/dtos/ICreateCategoryDTO";
 import { Category } from "@modules/cars/models/Category";
 import { ICategoriesRepository } from "@modules/cars/repositories/ICategoriesRepository";

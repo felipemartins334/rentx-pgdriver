@@ -1,9 +1,9 @@
 import { Category } from "@modules/cars/models/Category"
 import { ICategoriesRepository } from "@modules/cars/repositories/ICategoriesRepository"
-import { parser } from "src/utils/parser"
-import { readFileStream } from "src/utils/readFileStream"
+import { intervalFunction } from "@utils/intervalFunction"
+import { parser } from "@utils/parser"
+import { readFileStream } from "@utils/readFileStream"
 import { inject, injectable } from "tsyringe"
-import { intervalFunction } from "src/utils/intervalFunction"
 
 @injectable()
 class ImportCategoriesUseCase {
@@ -22,6 +22,7 @@ class ImportCategoriesUseCase {
 
     let i = 0
     return new Promise((resolve, reject) => {
+      
       intervalFunction(async () => {
         if(i<categories.length){
           
