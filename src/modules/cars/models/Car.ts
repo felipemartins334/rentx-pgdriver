@@ -1,5 +1,5 @@
 import { v4 as uuidV4 } from "uuid"
-import { Specification } from "./Specification"
+import { Category } from "./Category"
 
 class Car{
   id: string
@@ -10,6 +10,7 @@ class Car{
   fine_amount: number
   available: boolean
   brand: string
+  category: Category
   category_id: string
   created_at: Date
 
