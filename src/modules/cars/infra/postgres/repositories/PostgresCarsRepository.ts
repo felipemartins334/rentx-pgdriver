@@ -51,7 +51,7 @@ class PostgresCarsRepository implements ICarsRepository{
 
   }
 
-  async getCategories(car_id: string){
+  async getCategories(car_id: string): Promise<Category>{
     let connection = await getConnection()
     const { rows } = await connection.query<Category>(`
       SELECT categories.id, categories.name, categories.description, categories.created_at FROM categories
@@ -69,45 +69,37 @@ class PostgresCarsRepository implements ICarsRepository{
     name
   }: IListCarsDTO): Promise<Car[]> {
     let connection = await getConnection()
+
     const { rows } = await connection.query<Car>(`
     SELECT * FROM cars
     WHERE available = true
     `)
-    
-    if(brand){
-      return rows.filter(async row =>{
-        if(row.brand === brand){
-          row.category = await this.getCategories(row.id)
-          delete row.category_id
-        }
-      })
-    }
 
-    if(category){
-      return rows.filter(async row =>{
-        if(row.category_id === category){
-          row.category = await this.getCategories(row.id)
-          delete row.category_id
-        }
-      })
-    }
+    let results: Car[] = []
 
-    if(name){
-      return rows.filter(async row =>{
-        if(row.name === name){
-          row.category = await this.getCategories(row.id)
-          delete row.category_id
-        }
-      })
-
-    }
-    const promises = rows.map(async row => {
+    for (const row of rows){
       row.category = await this.getCategories(row.id)
+      let category_id = row.category_id
       delete row.category_id
-      return row
-    })
 
-    return Promise.all(promises)
+      if(category && category_id === category){
+        results.push(row)
+      }
+
+      if(name && row.name === name){
+        results.push(row)
+      }
+
+      if(brand && row.brand === brand){
+        results.push(row)
+      }
+
+      if(!name && !brand && !category){
+        results.push(row)
+
+      }
+    }
+    return results
   }
   
 
