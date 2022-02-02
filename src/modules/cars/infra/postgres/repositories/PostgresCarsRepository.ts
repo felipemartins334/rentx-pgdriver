@@ -1,10 +1,11 @@
 import { ICreateCarDTO } from "@modules/cars/dtos/ICreateCarDTO";
+import { IListCarsDTO } from "@modules/cars/dtos/IListCarsDTO";
 import { Car } from "@modules/cars/models/Car";
 import { ICarsRepository } from "@modules/cars/repositories/ICarsRepository";
 import { getConnection } from "@shared/infra/database/getConnection";
 
 class PostgresCarsRepository implements ICarsRepository{
-  
+
   async create({
     brand,
     category_id,
@@ -34,6 +35,32 @@ class PostgresCarsRepository implements ICarsRepository{
     [license_plate]) 
     return rows[0]
   }
+
+  async listAvailableCars({
+    brand,
+    category,
+    name
+  }: IListCarsDTO): Promise<Car[]> {
+    let connection = await getConnection()
+    const { rows } = await connection.query<Car>(`
+    SELECT * FROM cars
+    WHERE available = true
+    `)
+    if(brand){
+      return rows.filter(row => row.brand === brand)
+    }
+
+    if(category){
+      return rows.filter(row => row.category_id === category)
+    }
+
+    if(name){
+      return rows.filter(row => row.name === name)
+
+    }
+    return rows
+  }
+  
 
 }
 
