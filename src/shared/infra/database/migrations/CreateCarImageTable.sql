@@ -1,0 +1,8 @@
+CREATE TABLE IF NOT EXISTS cars_image(
+  id UUID PRIMARY KEY,
+  car_id UUID,
+  image_name VARCHAR(255),
+  created_at TIMESTAMP DEFAULT NOW(),
+
+  FOREIGN KEY (car_id) REFERENCES cars(id) ON DELETE CASCADE
+)

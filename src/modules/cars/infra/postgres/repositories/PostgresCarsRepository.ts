@@ -36,6 +36,18 @@ class PostgresCarsRepository implements ICarsRepository{
     return rows[0]
   }
 
+  async findById(car_id: string): Promise<Car>{
+    let connection = await getConnection()
+    const { rows } = await connection.query<Car>(`
+    SELECT * FROM cars
+    WHERE id = $1
+    LIMIT 1
+    `, [car_id])
+    return rows[0]
+
+  }
+
+
   async listAvailableCars({
     brand,
     category,
