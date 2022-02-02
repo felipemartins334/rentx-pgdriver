@@ -1,9 +1,11 @@
 import { PostgresCarsImageRepository } from '@modules/cars/infra/postgres/repositories/PostgresCarsImageRepository'
 import { PostgresCarsRepository } from '@modules/cars/infra/postgres/repositories/PostgresCarsRepository'
+import { PostgresCarsSpecificationsRepository } from '@modules/cars/infra/postgres/repositories/PostgresCarsSpecificationsRepository'
 import { PostgresCategoriesRepository } from '@modules/cars/infra/postgres/repositories/PostgresCategoriesRepository'
-import { PostgresSpecificationsRepository } from '@modules/cars/infra/postgres/repositories/PostgrespecificationsRepository'
+import { PostgresSpecificationsRepository } from '@modules/cars/infra/postgres/repositories/PostgresSpecificationsRepository'
 import { ICarsImageRepository } from '@modules/cars/repositories/ICarsImageRepository'
 import { ICarsRepository } from '@modules/cars/repositories/ICarsRepository'
+import { ICarsSpecificationsRepository } from '@modules/cars/repositories/ICarsSpecificationsRepository'
 import { ICategoriesRepository } from '@modules/cars/repositories/ICategoriesRepository'
 import { ISpecificationsRepository } from '@modules/cars/repositories/ISpecificationsRepository'
 import { PostgresUsersRepository } from '@modules/users/infra/postgres/repositories/PostgresUsersRepository'
@@ -33,4 +35,9 @@ container.registerSingleton<ICarsRepository>(
 container.registerSingleton<ICarsImageRepository>(
   "CarsImageRepository",
   PostgresCarsImageRepository
+)
+
+container.registerSingleton<ICarsSpecificationsRepository>(
+  "CarsSpecificationsRepository",
+  PostgresCarsSpecificationsRepository
 )

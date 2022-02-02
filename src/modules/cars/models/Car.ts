@@ -1,4 +1,5 @@
 import { v4 as uuidV4 } from "uuid"
+import { Specification } from "./Specification"
 
 class Car{
   id: string

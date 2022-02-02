@@ -4,6 +4,7 @@ import { Specification } from "../models/Specification";
 interface ISpecificationsRepository{
   create(data: ICreateSpecificationDTO): Promise<Specification>
   findByName(name: string): Promise<Specification>
+  findById(id: string): Promise<Specification>
 }
 
 export { ISpecificationsRepository }

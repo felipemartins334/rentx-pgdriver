@@ -28,6 +28,16 @@ class PostgresSpecificationsRepository implements ISpecificationsRepository{
     return rows[0]
   }
 
+  async findById(id: string): Promise<Specification> {
+    const connection = await getConnection()
+    const { rows } = await connection.query<Specification>(`
+    SELECT * FROM specifications
+    WHERE id = $1
+    LIMIT 1
+    `, [id])
+    return rows[0]
+  }
+
 }
 
 export { PostgresSpecificationsRepository }

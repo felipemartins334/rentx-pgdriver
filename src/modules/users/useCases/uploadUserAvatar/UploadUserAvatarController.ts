@@ -11,7 +11,7 @@ class UploadUserAvatarController{
     const uploadUserAvatarUseCase = container.resolve(UploadUserAvatarUseCase)
     const user = await uploadUserAvatarUseCase.execute(file.filename, id)
 
-    return response.json(user)
+    return response.status(204).json(user)
   }
 }
 

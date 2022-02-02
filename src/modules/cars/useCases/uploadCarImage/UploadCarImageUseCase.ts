@@ -3,6 +3,7 @@ import { CarImage } from "@modules/cars/models/CarImage";
 import { ICarsImageRepository } from "@modules/cars/repositories/ICarsImageRepository";
 import { ICarsRepository } from "@modules/cars/repositories/ICarsRepository";
 import { AppError } from "@shared/errors/AppError";
+import { deleteFile } from "@utils/deleteFile";
 import { inject, injectable } from "tsyringe";
 
 @injectable()
@@ -22,7 +23,7 @@ class UploadCarImageUseCase{
     if(!carExists){
       throw new AppError("Car don't exist")
     }
-    
+
     const carImage = await this.carsImageRepository.uploadImage({
       car_id,
       filename

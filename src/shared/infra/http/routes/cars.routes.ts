@@ -1,5 +1,6 @@
 import { uploadFile } from "@config/upload";
 import { CreateCarController } from "@modules/cars/useCases/createCar/CreateCarController";
+import { CreateCarSpecificationController } from "@modules/cars/useCases/createCarSpecification/CreateCarSpecificationController";
 import { ListCarController } from "@modules/cars/useCases/listCars/ListCarsController";
 import { UploadCarImageController } from "@modules/cars/useCases/uploadCarImage/UploadCarImageController";
 import { Router } from "express";
@@ -14,6 +15,7 @@ const carsRoutes = Router();
 const createCarController = new CreateCarController();
 const listCarController = new ListCarController();
 const uploadCarImageController = new UploadCarImageController()
+const createCarSpecificationController = new CreateCarSpecificationController()
 
 carsRoutes.post(
   "/",
@@ -30,7 +32,13 @@ carsRoutes.post(
   ensureAdmin,
   uploadImage.single("image"),
   uploadCarImageController.handle
-
 );
+
+carsRoutes.post(
+  "/specifications", 
+  ensureAuthenticated, 
+  ensureAdmin,
+  createCarSpecificationController.handle
+  )
 
 export { carsRoutes };

@@ -21,6 +21,11 @@ class SpecificationsRepositoryInMemory implements ISpecificationsRepository{
     
   }
 
+  async findById(id: string): Promise<Specification>{
+    return this.specifications.find(specification => specification.id === id)
+
+  }
+
 }
 
 export { SpecificationsRepositoryInMemory }
