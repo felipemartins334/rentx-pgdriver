@@ -2,6 +2,7 @@ import { ICreateCarDTO } from "@modules/cars/dtos/ICreateCarDTO";
 import { IListCarsDTO } from "@modules/cars/dtos/IListCarsDTO";
 import { Car } from "@modules/cars/models/Car";
 import { Category } from "@modules/cars/models/Category";
+import { Specification } from "@modules/cars/models/Specification";
 import { ICarsRepository } from "@modules/cars/repositories/ICarsRepository";
 import { getConnection } from "@shared/infra/database/getConnection";
 
@@ -63,6 +64,22 @@ class PostgresCarsRepository implements ICarsRepository{
     return rows[0]
   }
 
+  async getSpecifications(car_id: string): Promise<Specification[]>{
+    let connection = await getConnection()
+    const { rows } = await connection.query<Specification>(`
+    SELECT 
+    s.id, s.name, s.description, s.created_at 
+    FROM cars as c
+    INNER JOIN specifications_cars as sc
+    ON sc.car_id = c.id
+    INNER JOIN specifications as s
+    ON s.id = sc.specification_id
+    WHERE c.id = $1
+    `, [car_id])
+
+    return rows
+  }
+
   async listAvailableCars({
     brand,
     category,
@@ -79,6 +96,7 @@ class PostgresCarsRepository implements ICarsRepository{
 
     for (const row of rows){
       row.category = await this.getCategories(row.id)
+      row.specifications = await this.getSpecifications(row.id)
       let category_id = row.category_id
       delete row.category_id
 
